@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interfaz de API</title>
+</head>
+<body>
+
+<h2>Lista de actores</h2>
+<button onclick="getActors()">Mostrar Actores</button>
+<ul id="actors"></ul>
+
+<h2>Agregar nuevo actor</h2>
+<input type="text" id="first_name" placeholder="Nombre">
+<input type="text" id="last_name" placeholder="Apellido">
+<button onclick="addActor()">Agregar Actor</button>
+
+<h2>Actualizar actor</h2>
+<input type="text" id="update_id" placeholder="ID del Actor a actualizar">
+<input type="text" id="update_first_name" placeholder="Nuevo Nombre">
+<input type="text" id="update_last_name" placeholder="Nuevo Apellido">
+<button onclick="updateActor()">Actualizar Actor</button>
+
+<h2>Eliminar actor</h2>
+<input type="text" id="delete_id" placeholder="ID del Actor a eliminar">
+<button onclick="deleteActor()">Eliminar Actor</button>
+
+<script>
+    function getActors() {
+        fetch('http://localhost:3000/actors')
+            .then(response => response.json())
+            .then(data => {
+                let actorsList = document.getElementById("actors");
+                actorsList.innerHTML = '';
+                data.forEach(actor => {
+                    let listItem = document.createElement("li");
+                    listItem.textContent = actor.first_name + " " + actor.last_name;
+                    actorsList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    function addActor() {
+        const first_name = document.getElementById('first_name').value;
+        const last_name = document.getElementById('last_name').value;
+        fetch('http://localhost:3000/actors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ first_name, last_name })
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        });
+    }
+
+    function updateActor() {
+        const id = document.getElementById('update_id').value;
+        const first_name = document.getElementById('update_first_name').value;
+        const last_name = document.getElementById('update_last_name').value;
+        fetch(`http://localhost:3000/actors/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ first_name, last_name })
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        });
+    }
+
+    function deleteActor() {
+        const id = document.getElementById('delete_id').value;
+        fetch(`http://localhost:3000/actors/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        });
+    }
+</script>
+
+</body>
+</html>
