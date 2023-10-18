@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
-// Configuración de la conexión a la base de datos
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -34,8 +33,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-// Obtener todos los actores
 app.get('/actors', (req, res) => {
     const sql = 'SELECT * FROM actor';
     db.query(sql, (err, result) => {
@@ -47,11 +44,10 @@ app.get('/actors', (req, res) => {
     });
 });
 
-// Obtener actor por ID
 app.get('/actors/:id', (req, res) => {
     const id = req.params.id;
     const sql = 'SELECT * FROM actor WHERE actor_id = ?';
-    db.query(sql, id, (err, result) => {
+    db.query(sql, [id], (err, result) => {
         if (err) {
             res.status(500).send('Error al obtener actor por ID');
         } else {
@@ -60,34 +56,41 @@ app.get('/actors/:id', (req, res) => {
     });
 });
 
-// Crear actor nuevo
 app.post('/actors', (req, res) => {
     const { first_name, last_name } = req.body;
-    const sql = 'INSERT INTO actor (first_name, last_name) VALUES (?, ?)';
-    db.query(sql, [first_name, last_name], (err, result) => {
-        if (err) {
-            res.status(500).send('Error al añadir actor');
-        } else {
-            res.send('Actor añadido correctamente');
-        }
-    });
+
+    if (!first_name || !last_name) {
+        res.status(400).send('Los campos de nombre y apellido son obligatorios');
+    } else {
+        const sql = 'INSERT INTO actor (first_name, last_name) VALUES (?, ?)';
+        db.query(sql, [first_name, last_name], (err, result) => {
+            if (err) {
+                res.status(500).send('Error al añadir actor');
+            } else {
+                res.send('Actor añadido correctamente');
+            }
+        });
+    }
 });
 
-// Actualizar actor por ID
 app.put('/actors/:id', (req, res) => {
     const id = req.params.id;
     const { first_name, last_name } = req.body;
-    const sql = 'UPDATE actor SET first_name = ?, last_name = ? WHERE actor_id = ?';
-    db.query(sql, [first_name, last_name, id], (err, result) => {
-        if (err) {
-            res.status(500).send('Error al actualizar actor por ID');
-        } else {
-            res.send('Actor actualizado correctamente');
-        }
-    });
+
+    if (!first_name || !last_name) {
+        res.status(400).send('Los campos de nombre y apellido son obligatorios');
+    } else {
+        const sql = 'UPDATE actor SET first_name = ?, last_name = ? WHERE actor_id = ?';
+        db.query(sql, [first_name, last_name, id], (err, result) => {
+            if (err) {
+                res.status(500).send('Error al actualizar actor por ID');
+            } else {
+                res.send('Actor actualizado correctamente');
+            }
+        });
+    }
 });
 
-// Eliminar actor por ID
 app.delete('/actors/:id', (req, res) => {
     const id = req.params.id;
     const sql = 'DELETE FROM actor WHERE actor_id = ?';

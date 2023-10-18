@@ -5,6 +5,10 @@
     <img src="https://hoplasoftware.com/wp-content/uploads/2021/07/1024px-MySQL.ff87215b43fd7292af172e2a5d9b844217262571.png" width="200px">
 </div>
 
+## Documentación
+
+La documentación de la API se encuentra en el siguiente enlace: [Documentación API](https://docs.google.com/document/d/1TtcBefMVywp3w70s1iIHIxOeuTZiR23jRsNOeNRDRC0/edit?usp=sharing)
+
 ## Instrucciones
 
 Para hacer correr este backend es necesario tener instalado NodeJS y MySQL.
