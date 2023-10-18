@@ -7,8 +7,28 @@
 
 ## Instrucciones
 
+Para hacer correr este backend es necesario tener instalado NodeJS y MySQL.
+En nuestra configuración del package json tenemos el usuario y contraseña de la base de datos, por lo que es necesario crear un usuario con los siguientes datos:
 
-Crear la tabla de actores:
+-   Usuario: root
+-   Contraseña: root
+-   Host: localhost
+-   Puerto: 3306
+-   Base de datos: backsakila
+
+Si se deseara configurar de otra manera, se debe modificar el archivo package.json.
+
+## Base de datos
+
+Se debe crear la base de datos backsakila y las tablas de la siguiente manera:
+
+1. Crear la base de datos backsakila
+
+    ```sql
+    CREATE DATABASE backsakila;
+    ```
+
+2. Crear la tabla actor
 
     ```sql
     CREATE TABLE actor (

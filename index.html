@@ -33,7 +33,7 @@
                 actorsList.innerHTML = '';
                 data.forEach(actor => {
                     let listItem = document.createElement("li");
-                    listItem.textContent = actor.first_name + " " + actor.last_name;
+                    listItem.textContent = actor.actor_id + " " + actor.first_name + " " + actor.last_name + " (" + actor.last_update + ")";
                     actorsList.appendChild(listItem);
                 });
             })
