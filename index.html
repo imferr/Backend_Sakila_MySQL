@@ -1,91 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interfaz de API</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
-<h2>Lista de actores</h2>
-<button onclick="getActors()">Mostrar Actores</button>
-<ul id="actors"></ul>
+    <div class="container">
+        <header class="header">
+            <h1>LISTA DE ACTORES</h1>
+        </header>
 
-<h2>Agregar nuevo actor</h2>
-<input type="text" id="first_name" placeholder="Nombre">
-<input type="text" id="last_name" placeholder="Apellido">
-<button onclick="addActor()">Agregar Actor</button>
+        <section class="section">
+            <h2>Mostrar Actores</h2>
+            <button onclick="getActors()" class="btn-primary">Mostrar Actores</button><br><br>
+            <table id="actors" class="table-list">
+                <thead>
+                    <tr>
+                        <th>Actor ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Última Actualización</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
 
-<h2>Actualizar actor</h2>
-<input type="text" id="update_id" placeholder="ID del Actor a actualizar">
-<input type="text" id="update_first_name" placeholder="Nuevo Nombre">
-<input type="text" id="update_last_name" placeholder="Nuevo Apellido">
-<button onclick="updateActor()">Actualizar Actor</button>
+        <section class="section">
+            <h2>Agregar Nuevo Actor</h2>
+            <input type="text" id="first_name" placeholder="Nombre" class="input-field">
+            <input type="text" id="last_name" placeholder="Apellido" class="input-field">
+            <button onclick="addActor()" class="btn-primary">Agregar Actor</button>
+        </section>
 
-<h2>Eliminar actor</h2>
-<input type="text" id="delete_id" placeholder="ID del Actor a eliminar">
-<button onclick="deleteActor()">Eliminar Actor</button>
+        <section class="section">
+            <h2>Actualizar Actor</h2>
+            <input type="text" id="update_id" placeholder="ID del Actor a actualizar" class="input-field">
+            <input type="text" id="update_first_name" placeholder="Nuevo Nombre" class="input-field">
+            <input type="text" id="update_last_name" placeholder="Nuevo Apellido" class="input-field">
+            <button onclick="updateActor()" class="btn-primary">Actualizar Actor</button>
+        </section>
 
-<script>
-    function getActors() {
-        fetch('http://localhost:3000/actors')
-            .then(response => response.json())
-            .then(data => {
-                let actorsList = document.getElementById("actors");
-                actorsList.innerHTML = '';
-                data.forEach(actor => {
-                    let listItem = document.createElement("li");
-                    listItem.textContent = actor.actor_id + " " + actor.first_name + " " + actor.last_name + " (" + actor.last_update + ")";
-                    actorsList.appendChild(listItem);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
+        <section class="section">
+            <h2>Eliminar Actor</h2>
+            <input type="text" id="delete_id" placeholder="ID del Actor a eliminar" class="input-field">
+            <button onclick="deleteActor()" class="btn-primary">Eliminar Actor</button>
+        </section>
+    </div>
 
-    function addActor() {
-        const first_name = document.getElementById('first_name').value;
-        const last_name = document.getElementById('last_name').value;
-        fetch('http://localhost:3000/actors', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ first_name, last_name })
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-        });
-    }
-
-    function updateActor() {
-        const id = document.getElementById('update_id').value;
-        const first_name = document.getElementById('update_first_name').value;
-        const last_name = document.getElementById('update_last_name').value;
-        fetch(`http://localhost:3000/actors/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ first_name, last_name })
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-        });
-    }
-
-    function deleteActor() {
-        const id = document.getElementById('delete_id').value;
-        fetch(`http://localhost:3000/actors/${id}`, {
-            method: 'DELETE'
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-        });
-    }
-</script>
+    <script src="scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>
