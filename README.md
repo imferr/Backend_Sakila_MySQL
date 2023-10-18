@@ -40,3 +40,11 @@ Se debe crear la base de datos backsakila y las tablas de la siguiente manera:
         KEY idx_actor_last_name (last_name)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ```
+
+## Ejecución
+
+Para realizar las pruebas de las API se realizó un index.html donde se pueden ver todas las operaciones del CRUD, para poder ver el html se puede utillizar un live server o abrir el archivo index.html en el navegador. Pero para que este html funcione con el back es necsario hacerlo correr con el siguiente comando:
+
+```bash
+npm run serve
+```
